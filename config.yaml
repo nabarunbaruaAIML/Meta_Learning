@@ -1,1 +1,4 @@
 training_DS: Artifact/Data/dataset.json
+Best_Model: Artifact/Model
+Model: albert-base-v2
+cache_dir: Artifact\Cache
