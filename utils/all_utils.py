@@ -6,7 +6,7 @@ import json
 import logging
 import shutil
 import time
-import boto3
+# import boto3
 from datasets import load_dataset
 from datasets import Dataset
 from datasets import ClassLabel
@@ -19,10 +19,10 @@ from transformers import AutoModel, AutoModelForQuestionAnswering, AutoModelForS
 # from onnxruntime import InferenceSession, SessionOptions
 import torch
 import logging
-import boto3
+# import boto3
 from botocore.exceptions import ClientError
 from tqdm import tqdm
-import wandb
+# import wandb
 from os import listdir
 from os.path import isfile
 
@@ -448,31 +448,31 @@ Method gets the input,output parameters and right Model.
 #     return label_list,output_list
 
 
-def create_bucket(bucket_name, region=None):
-    """Create an S3 bucket in a specified region
+# def create_bucket(bucket_name, region=None):
+#     """Create an S3 bucket in a specified region
 
-    If a region is not specified, the bucket is created in the S3 default
-    region (us-east-1).
+#     If a region is not specified, the bucket is created in the S3 default
+#     region (us-east-1).
 
-    :param bucket_name: Bucket to create
-    :param region: String region to create bucket in, e.g., 'us-west-2'
-    :return: True if bucket created, else False
-    """
+#     :param bucket_name: Bucket to create
+#     :param region: String region to create bucket in, e.g., 'us-west-2'
+#     :return: True if bucket created, else False
+#     """
 
-    # Create bucket
-    try:
-        if region is None:
-            s3_client = boto3.client('s3')
-            s3_client.create_bucket(Bucket=bucket_name)
-        else:
-            s3_client = boto3.client('s3', region_name=region)
-            location = {'LocationConstraint': region}
-            s3_client.create_bucket(Bucket=bucket_name,
-                                    CreateBucketConfiguration=location)
-    except ClientError as e:
-        logging.error(e)
-        return False
-    return True
+#     # Create bucket
+#     try:
+#         if region is None:
+#             s3_client = boto3.client('s3')
+#             s3_client.create_bucket(Bucket=bucket_name)
+#         else:
+#             s3_client = boto3.client('s3', region_name=region)
+#             location = {'LocationConstraint': region}
+#             s3_client.create_bucket(Bucket=bucket_name,
+#                                     CreateBucketConfiguration=location)
+#     except ClientError as e:
+#         logging.error(e)
+#         return False
+#     return True
 
 def Upload_to_S3(s3,bucket_name, local_data_dir,unwanted_file):
     for dir in tqdm(local_data_dir, desc= 'Folders'):
@@ -484,17 +484,17 @@ def Upload_to_S3(s3,bucket_name, local_data_dir,unwanted_file):
                 s3.Object(bucket_name, file).upload_file(local_path)
                 logging.info(f"Model {file} Uploaded to S3 Busket Successfully")
 
-"""Weights & Baises Model Uploaded"""      
-def Weights_Baises(run,folder,unwanted_file):
-    for dir in tqdm(folder, desc= 'Folders'):
-        dir_file =  os.listdir(dir)
-        for file in tqdm(dir_file, desc= 'Files from Directory'):
-            if (file not in unwanted_file):  # ['.gitignore','model.onnx'] etc
-                local_path = os.path.join(dir,file)
-                replaced_text = file.replace('.onnx', '')
-                # print(replaced_text)
-                raw_model = wandb.Artifact(replaced_text, type='model',description='Onnx Model')
-                raw_model.add_file(local_path,file)
-                run.log_artifact(raw_model)
-                logging.info(f"Model {replaced_text} Uploaded to Weights and Baises Successfully")
+# """Weights & Baises Model Uploaded"""      
+# def Weights_Baises(run,folder,unwanted_file):
+#     for dir in tqdm(folder, desc= 'Folders'):
+#         dir_file =  os.listdir(dir)
+#         for file in tqdm(dir_file, desc= 'Files from Directory'):
+#             if (file not in unwanted_file):  # ['.gitignore','model.onnx'] etc
+#                 local_path = os.path.join(dir,file)
+#                 replaced_text = file.replace('.onnx', '')
+#                 # print(replaced_text)
+#                 raw_model = wandb.Artifact(replaced_text, type='model',description='Onnx Model')
+#                 raw_model.add_file(local_path,file)
+#                 run.log_artifact(raw_model)
+#                 logging.info(f"Model {replaced_text} Uploaded to Weights and Baises Successfully")
                 
