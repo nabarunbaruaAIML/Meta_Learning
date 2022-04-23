@@ -1,4 +1,4 @@
-name: Meta_Learning
+name: Meta_Learning 
 channels:
   - defaults
 dependencies:
@@ -52,7 +52,11 @@ dependencies:
     - responses==0.18.0
     - s3fs==2022.3.0
     - sacremoses==0.0.49
+    - scikit-learn==1.0.2
+    - scipy==1.7.3
     - six==1.16.0
+    - sklearn==0.0
+    - threadpoolctl==3.1.0
     - tokenizers==0.12.1
     - torch==1.8.2+cu111
     - torchaudio==0.8.2

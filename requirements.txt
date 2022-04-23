@@ -9,7 +9,7 @@ accelerate
 # PyYAML 
 # boto3
 # matplotlib
-# sklearn
+sklearn
 # python-dotenv
 s3fs
 # faiss-cpu
