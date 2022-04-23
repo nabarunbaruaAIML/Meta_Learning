@@ -1,0 +1,7 @@
+meta_epoch: 3  
+inner_batch_size: 5
+inner_batch_size_eval: 5
+outer_update_lr: 0.00005 #5e-5
+inner_update_lr: 0.00005 #5e-5
+inner_Epoch: 5
+inner_Epoch_eval: 5
