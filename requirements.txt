@@ -1,0 +1,19 @@
+### dependency
+tqdm
+# dvc
+# mlflow
+# pandas
+transformers
+datasets
+accelerate
+# PyYAML 
+# boto3
+# matplotlib
+# sklearn
+# python-dotenv
+s3fs
+# faiss-cpu
+
+
+### local packages -
+# -e . # << uncomment this to install from setup.py
