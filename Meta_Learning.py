@@ -4,6 +4,7 @@ import os
 from datasets import load_dataset, ClassLabel,load_metric
 from transformers import   AutoModelForSequenceClassification, AutoTokenizer,DataCollatorWithPadding
 from accelerate import Accelerator
+ 
 import random
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
@@ -13,6 +14,7 @@ from copy import deepcopy
 import torch
 import numpy as np
 from utils.all_utils import read_yaml
+from tqdm.auto import tqdm
 
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
@@ -44,7 +46,8 @@ def Learner(tokenizer,model,Outer_optimizer,Dataset,inner_batch_size,inner_batch
         inner_batch_size = MAX_GPU_BATCH_SIZE
     """Looping over each Task  Train & Test Task"""    
     for task_id, task in enumerate(tasks):
-        logging.info(f'\nTask ID: {task_id}')#print('\nTask ID',task_id)
+        logging.info(f'\nTask ID: {task_id}')#
+        print(f'\nTask ID:',task_id)
         support = Dataset[task[0]]
         query = Dataset[task[1]]
         fast_model = deepcopy(model)
@@ -86,7 +89,7 @@ def Learner(tokenizer,model,Outer_optimizer,Dataset,inner_batch_size,inner_batch
                 all_loss.append(loss.item())
              
             logging.info(f'\nInner Epoch: {i} \tInner Loss: {np.mean(all_loss)}')
-    
+            print(f'\nInner Epoch: {i} \tInner Loss: {np.mean(all_loss)}')
             fast_model.eval()
             # query_dataloader = DataLoader(query,collate_fn=data_collator,batch_size=inner_batch_size_eval)
             for batch in query_dataloader:
@@ -214,25 +217,15 @@ def main(parsed_args):
 
     model.to('cpu')
     tokenizer = AutoTokenizer.from_pretrained( Model, use_fast=True,cache_dir= cache_dir )
-    # data_collator = DataCollatorWithPadding(tokenizer,padding = 'max_length', max_length= 512 )
-    # f1_metric = load_metric('f1')
     
-    
-    
-    # meta_epoch=3 ## Done
-    # inner_batch_size = 10
-    # inner_batch_size_eval = 10
-    # outer_update_lr = 5e-5
-    # inner_update_lr = 5e-5
-    # inner_Epoch = 5
-    # inner_Epoch_eval = 5
     
     """Meta Training Starts"""
     logging.info(f'\nMeta Training Starts')
-    global_step = 0
+    global_step = tqdm(range(meta_epoch))
     Outer_optimizer = AdamW(model.parameters(), lr=outer_update_lr)
     for epoch in range(meta_epoch):
         logging.info(f'\nMeta Epoch: {epoch}')
+        print(f'\nMeta Epoch: {epoch}')
         
         """Training"""
         Train_Dataset = meta_task(10,Dataset,tokenizer,100,30,True)
@@ -247,7 +240,7 @@ def main(parsed_args):
                     test.append(v)
         model,Outer_optimizer,metric = Learner(tokenizer,model,Outer_optimizer,Train_Dataset,inner_batch_size,inner_batch_size_eval,inner_update_lr,train,test,inner_Epoch,True)
         logging.info(f'\nMeta Epoch: {epoch} \tTraining F1: {metric}')
-         
+        print(f'\nMeta Epoch: {epoch} \tTraining F1: {metric}') 
 
         """Testing"""
         Test_Dataset = meta_task(10,Dataset,tokenizer,50,30,False)
@@ -262,6 +255,8 @@ def main(parsed_args):
                     test.append(v)
         model,Outer_optimizer,metric = Learner(tokenizer,model,Outer_optimizer,Test_Dataset,inner_batch_size,inner_batch_size_eval,inner_update_lr,train,test,inner_Epoch_eval,False)
         logging.info(f'\nMeta Epoch: {epoch} \tTest F1: {metric}')
+        print(f'\nMeta Epoch: {epoch} \tTest F1: {metric}') 
+        global_step.update(1)
          
     state_dict = model.state_dict()
     model.save_pretrained(Best_Model, state_dict=state_dict)
