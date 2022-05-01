@@ -36,7 +36,7 @@ Now in Our Project in **Meta_Learning.py** we have two Function which are import
 
 For detail process flow, please follow the flow chart below for overll Meta-Learning:
 
-![Meta-Learning-FlowChart](Artifact\Img\FlowCharts.jpg)
+![Meta-Learning-FlowChart](Artifact/Img/FlowCharts.jpg)
 
 Now the Technical Stack:
 - Huggingface Transformers
@@ -50,7 +50,7 @@ Now let's discuss about the project ([Github Link](https://github.com/nabarunbar
 
 Fisrt step Start with setuping the enviorment, now to setup we have different bash files which will create local enviorment. Please select the bash file as per your need.
 
-![BashFile](Artifact\Img\Bash.jpg)
+![BashFile](Artifact/Img/Bash.jpg)
 
 After setuping the local enviorment we are good to go for meta-learning but before we move to Meta-Learning python file. We should understand the dataset which we are using, below is the number of records per domain:
 
@@ -102,7 +102,7 @@ We can see last three domain, namely Automotive, Computer & Video Games and Offi
 
 All the Configuration and Parameters to the Meta - Training are centrally given in the Config.yaml file & Params.yaml file which can be change to impact the training.
 
-![Config_Param_File](Artifact\Img\Config_Param_File.jpg)
+![Config_Param_File](Artifact/Img/Config_Param_File.jpg)
 
 Now to execute training in multi-GPU or single GPU or CPU, we need to configure Accelerate to do that we just need to execute a command
 ```bash
