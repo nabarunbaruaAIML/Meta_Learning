@@ -9,7 +9,7 @@
 
 [Git](https://github.com/arjunKumbakkara)/ [LinkedIn](https://www.linkedin.com/in/arjunkumbakkara/)/ [Towardsdatascience](https://medium.com/@arjunkumbakkara)
 
-Meta - Learning is exciting trend in Research and before we jump into Project implementation, I think we first should understand Meta - Learning basics. 
+Meta - Learning is exciting trend in Research and before we jump into Project implementation, we think we first should understand Meta - Learning basics. 
 
 In Traditional ML/DL approach, what we follow is we get huge dataset and we start training on that dataset and eventually we get good accuracy score.
 
