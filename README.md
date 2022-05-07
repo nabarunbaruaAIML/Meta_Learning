@@ -123,7 +123,7 @@ In our example, my_script.py is Meta_Learning.py file. Once executing the above 
 
 And you can see the result in the Folder named Logs in running_logs.log file. With this we came to end of our Blog post.
 
-Inspiration for our work came from this [Github](https://github.com/mailong25/meta-learning-bert) which is implemented completely in pytorch, kindly visit and check if you want to implement your implementation completely pytorch way.
+Inspiration for our work came from this [Github](https://github.com/mailong25/meta-learning-bert) (Long Mai)which is implemented completely in pytorch, kindly visit and check if you want to implement your implementation completely pytorch way.
 
 
 If you like this Blog please show your love and give us a thumbs up , star us  and if not please do give us a feedback in the comment section.
